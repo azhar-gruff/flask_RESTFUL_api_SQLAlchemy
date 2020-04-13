@@ -1,8 +1,10 @@
 import sqlite3
 
+from db import db
 
-class ItemModel:
-    """ A model for an Item object.
+
+class ItemModel(db.Model):
+    """ A model for an Item object. Extends SQLAlchemy Model object
 
     Attributes:
         name (str): The name of the item
@@ -22,6 +24,13 @@ class ItemModel:
             new Item using the Item argument's name attribute and adds it to the DB. Otherwise, it
             updates the item in the DB that matches the provided Item argument's name attribute.
     """
+    # DB ORM fields
+    __tablename__ = 'items'
+
+    # Attributes MUST match the DB model properties
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80))
+    price = db.Column(db.Float(precision=2))
     
     def __init__(self, name, price):
         self.name = name

@@ -1,8 +1,10 @@
 import sqlite3
 
+from db import db
 
-class UserModel:
-    """A class representing the model for a User in data
+
+class UserModel(db.Model):
+    """A class representing the model for a User in data. Extends SQLAlchemy model object
 
     Attributes:
         id (int): The user's id in localstorage data (from security.py)
@@ -17,6 +19,14 @@ class UserModel:
             value for the query with parameter replacement. Returns the user object if found,
             otherwise returns None.
     """
+    # DB ORM fields
+    __tablename__ = 'users'
+
+    # Attributes MUST match the DB model properties
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80))
+    password = db.Column(db.String(80))
+
     def __init__(self, _id, username, password):
         self.id = _id
         self.username = username
