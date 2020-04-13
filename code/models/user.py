@@ -31,7 +31,7 @@ class UserModel:
         result = cursor.execute(query, (username,)) # single value tuple needs a commma
         row = result.fetchone() # gets first result from query
         if row:
-            user = User(row[0], row[1], row[2])
+            user = cls(*row) # row unpacking
         else:
             user = None
 
@@ -47,7 +47,7 @@ class UserModel:
         result = cursor.execute(query, (id,)) # single value tuple needs a commma
         row = result.fetchone() # gets first result from query
         if row:
-            user = User(row[0], row[1], row[2])
+            user = cls(*row) # row unpacking
         else:
             user = None
 

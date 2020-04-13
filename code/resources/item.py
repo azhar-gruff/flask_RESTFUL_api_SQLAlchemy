@@ -5,7 +5,7 @@ from flask_jwt import jwt_required
 from models.item import ItemModel
 
 # resources from flask_restful allow you to create classes for API data
-class ItemModel(Resource):
+class Item(Resource):
     """Flask RESTful item (resource) that performs HTTP requests
     Static Attributes:
         parser (obj): Instance of the flask_restful RequestParser class. Allows for validations on
@@ -52,7 +52,7 @@ class ItemModel(Resource):
         if ItemModel.find_by_name(name):
             return {'messsage': "An item with name '{}' already exists".format(name)}, 400
 
-        data = ItemModel.parser.parse_args()
+        data = self.parser.parse_args()
         
         item = ItemModel(name, data['price'])
         
@@ -62,7 +62,7 @@ class ItemModel(Resource):
         except:
             return {'message': 'An error occured inserting the item.'}, 500 # internal server error
 
-        return item, 201 # Http status for created
+        return item.json(), 201 # Http status for created
 
     def delete(self, name):
         # data present check
@@ -83,7 +83,7 @@ class ItemModel(Resource):
         return {'message': 'Item not found'}, 404
 
     def put(self, name):
-        data = ItemModel.parser.parse_args()
+        data = self.parser.parse_args()
 
         item = ItemModel.find_by_name(name)
         updated_item = ItemModel(name, data['price'])
@@ -102,7 +102,7 @@ class ItemModel(Resource):
                 updated_item.update()
             except:
                 return {'message': 'An error has occurred updating the item.'}, 500 # internal server error
-        return updated_item
+        return updated_item.json()
 
 
 class ItemList(Resource):
