@@ -38,42 +38,18 @@ class ItemModel(db.Model):
     
     @classmethod
     def find_by_name(cls, name):
-        # DB connect
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
+        # refactored SQLAlchemy ORM
+        return cls.query.filter_by(name=name).first()
 
-        # query
-        query = "SELECT * FROM items WHERE name = ?"
-        result = cursor.execute(query, (name,))
-        row = result.fetchone()
-        connection.close()
+    def save_to_db(self):
+        # refactored SQLAlchemy ORM to upsert
+        db.session.add(self)
+        db.session.commit()
 
-        if row:
-            return cls(*row) # argument unpacking (row[0] = name, row[1] price)
-
-    def insert(self):
-        # DB Connect
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-
-        # query
-        query = "INSERT INTO items VALUES (?, ?)"
-        cursor.execute(query, (self.name, self.price))
-
-        connection.commit()
-        connection.close()
-
-    def update(self):
-        # DB Connect
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-
-        # query
-        query = "UPDATE items SET price = ? WHERE name = ?"
-        cursor.execute(query, (self.price, self.name))
-
-        connection.commit()
-        connection.close()
+    def delete_from_db(self):
+        # refactored SQLAlchemy ORM
+        db.session.delete(self)
+        db.session.commit()
 
     def json(self):
         return {'name': self.name, 'price': self.price}

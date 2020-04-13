@@ -58,7 +58,7 @@ class Item(Resource):
         
         # try/except block for potential DB insert failure
         try:
-            item.insert()
+            item.save_to_db()
         except:
             return {'message': 'An error occured inserting the item.'}, 500 # internal server error
 
@@ -68,16 +68,7 @@ class Item(Resource):
         # data present check
         item = ItemModel.find_by_name(name)
         if item:
-            # DB Connect
-            connection = sqlite3.connect('data.db')
-            cursor = connection.cursor()
-
-            # query
-            query = "DELETE FROM items WHERE name = ?"
-            cursor.execute(query, (name,)) # single variable tuple
-
-            connection.commit()
-            connection.close()
+            item.delete_from_db() # refactored with model
 
             return {'message': 'Item deleted'}
         return {'message': 'Item not found'}, 404
@@ -88,20 +79,13 @@ class Item(Resource):
         item = ItemModel.find_by_name(name)
         updated_item = ItemModel(name, data['price'])
 
-        # create new item
+        # refatored to check if item is present.
         if item is None:
-            # try/except block for potential DB insert failure
-            try:
-                updated_item.insert()
-            except:
-                return {'message': 'An error has occurred inserting the item.'}, 500 # internal server error
-        # update item
+           item = ItemModel(name, data['price'])
         else:
-            # try/except block for potential DB insert failure
-            try:
-                updated_item.update()
-            except:
-                return {'message': 'An error has occurred updating the item.'}, 500 # internal server error
+            item.price = data['price']
+
+        item.save_to_db() # refactored to save with model
         return updated_item.json()
 
 
