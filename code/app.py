@@ -14,6 +14,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'thisisasecretkey' # NOTE change for production
 api = Api(app)
 
+# ===== DB Creation =====
+@app.before_first_request # tells flask to run the following function first
+def create_tables():
+    db.create_all()
+
 # === Security ===
 jwt = JWT(app, authenticate, identify) # creates /auth endpoint
 
