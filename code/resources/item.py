@@ -1,4 +1,3 @@
-import sqlite3
 from flask import Request
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
@@ -96,20 +95,8 @@ class ItemList(Resource):
         get: Queries the database for all items and returns a list of items (ItemModel class).
     """
     def get(self):
-        # DB Connect
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-
-        # query
-        query = "SELECT * FROM items"
-        result = cursor.execute(query)
-
-        items = []
-
-        # instantiate items in JSON
-        for row in result:
-            items.append({'name': row[0], 'price': row[1]})
-
-        connection.close()
-
-        return {'items': items}
+        # refactored with SQLAlchemy and list comprehension
+        return {'items': [item.json() for item in ItemModel.query.all()]}
+        # if you are using a different language with python (like JS)
+        # using the map method may better a better option
+        # return {'items': list(map(lambda x: x.json(), ItemModel.query.all())}
