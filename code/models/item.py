@@ -7,27 +7,22 @@ class ItemModel(db.Model):
     """ A model for an Item object. Extends SQLAlchemy Model object
 
     Attributes:
-        name (str): The name of the item
-        price (decimal): The cost of an item
+        name (str): The name of the ItemModel instance.
+        price (decimal): The cost of an ItemModel instance.
 
     Class Methods:
         find_by_name: Takes the arguement 'name' and performs a GET query on the DB to determine
-            if the item is present.
+            if the ItemModel is present.
 
     Methods:
-        json: Returns the item model attributes in JSON format
-        
-        insert: Takes in an Item as an argument. Opens a stream to the DB and performs an insert
-            query to add a new data piece.
-
-        update: Takes in an Item as an argument. If the Item is not present in the DB, creates a
-            new Item using the Item argument's name attribute and adds it to the DB. Otherwise, it
-            updates the item in the DB that matches the provided Item argument's name attribute.
+        json: Returns the ItemModel attributes in JSON format
+        save_to_db: upserts data (ItemModel) into the DB.
+        delete_from_db: deletes data (ItemModel) from DB.
     """
     # DB ORM fields
     __tablename__ = 'items'
 
-    # Attributes MUST match the DB model properties
+    # Attributes MUST match the DB model properties, except for id
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     price = db.Column(db.Float(precision=2))

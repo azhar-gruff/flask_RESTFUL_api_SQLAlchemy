@@ -37,14 +37,11 @@ class UserRegister(Resource):
         if UserModel.find_by_username(data['username']):
             return {"message": "Username exists, please choose a different username."}, 400
 
-        # DB Connect
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-        
-        query = "INSERT INTO users VALUES (NULL, ?, ?)" # id field MUST be null to auto-increment
-        cursor.execute(query, (data['username'], data['password']))
-
-        connection.commit()
-        connection.close()
+        # dictionary unpacking to fit user model parameters
+        # since teh parser is being utilized, you know that the data
+        # WILL ALWAYS have the appropirate data to me the UserModel
+        # parameters
+        user = UserModel(**data) 
+        user.save_to_db()
 
         return {"message": "User created successfully."}, 201
