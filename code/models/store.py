@@ -29,7 +29,7 @@ class StoreModel(db.Model):
     # When lazy=dynamic is used, self.items becomes a query builder
     items = db.relationship('ItemModel', lazy='dynamic')
     
-    def __init__(self, name, price):
+    def __init__(self, name):
         self.name = name
     
     @classmethod
