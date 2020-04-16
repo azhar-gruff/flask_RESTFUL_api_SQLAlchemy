@@ -25,9 +25,9 @@ jwt = JWT(app, authenticate, identify) # creates /auth endpoint
 
 # ===== Endpoints =====
 # add the class, along with the URL
-api.add_resouce(Store, '/store/<string:name>') # http//127.0.0.1:5000/store/walmart
+api.add_resource(Store, '/store/<string:name>') # http//127.0.0.1:5000/store/walmart
 api.add_resource(Item, '/item/<string:name>') # http://127.0.0.1:5000/item/cheese
-api.add_resouce(StoreList, '/stores') # http//127.0.0.1:5000/stores
+api.add_resource(StoreList, '/stores') # http//127.0.0.1:5000/stores
 api.add_resource(ItemList, '/items') # http//127.0.0.1:5000/items
 api.add_resource(UserRegister, '/register') # http://127.0.0.1:5000/register
 
