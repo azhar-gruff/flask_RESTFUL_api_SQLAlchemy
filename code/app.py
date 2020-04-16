@@ -5,6 +5,7 @@ from flask_jwt import JWT
 from security import authenticate, identify
 from resources.user import UserRegister # refactored for modules
 from resources.item import Item, ItemList # refactored for modules
+from resources.store import Store, StoreList
 from db import db
 
 # ==== Server =====
@@ -24,7 +25,9 @@ jwt = JWT(app, authenticate, identify) # creates /auth endpoint
 
 # ===== Endpoints =====
 # add the class, along with the URL
+api.add_resouce(Store, '/store/<string:name>') # http//127.0.0.1:5000/store/walmart
 api.add_resource(Item, '/item/<string:name>') # http://127.0.0.1:5000/item/cheese
+api.add_resouce(StoreList, '/stores') # http//127.0.0.1:5000/stores
 api.add_resource(ItemList, '/items') # http//127.0.0.1:5000/items
 api.add_resource(UserRegister, '/register') # http://127.0.0.1:5000/register
 
