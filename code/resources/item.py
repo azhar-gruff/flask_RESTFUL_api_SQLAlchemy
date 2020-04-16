@@ -31,6 +31,11 @@ class Item(Resource):
         required = True,
         help = "This field cannot be left blank!"
     )
+    parser.add_argument('store_id',
+        type = int,
+        required = True,
+        help = "Every item must have a store id."
+    )
 
     # create fucntions for each HTTP method you will allow for the
     # resource
@@ -53,7 +58,7 @@ class Item(Resource):
 
         data = self.parser.parse_args()
         
-        item = ItemModel(name, data['price'])
+        item = ItemModel(name, data['price'], data['store_id'])
         
         # try/except block for potential DB insert failure
         try:
@@ -76,13 +81,14 @@ class Item(Resource):
         data = self.parser.parse_args()
 
         item = ItemModel.find_by_name(name)
-        updated_item = ItemModel(name, data['price'])
+        updated_item = ItemModel(name, data['price'], data['store_id'])
 
         # refatored to check if item is present.
         if item is None:
-           item = ItemModel(name, data['price'])
+           item = ItemModel(name, data['price'], data['store_id'])
         else:
             item.price = data['price']
+            item.store_id = data['store_id']
 
         item.save_to_db() # refactored to save with model
         return updated_item.json()

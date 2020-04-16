@@ -9,6 +9,8 @@ class ItemModel(db.Model):
     Attributes:
         name (str): The name of the ItemModel instance.
         price (decimal): The cost of an ItemModel instance.
+        store_id (int): The id number of the store the instance of the ItemModel is related to in
+            the DB
 
     Class Methods:
         find_by_name: Takes the arguement 'name' and performs a GET query on the DB to determine
@@ -26,10 +28,15 @@ class ItemModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     price = db.Column(db.Float(precision=2))
+
+    # Many to one relationship (Store --> Items)
+    store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
+    store = db.relationship('StoreModel')
     
-    def __init__(self, name, price):
+    def __init__(self, name, price, store_id):
         self.name = name
         self.price = price
+        self.store_id = store_id
     
     @classmethod
     def find_by_name(cls, name):
