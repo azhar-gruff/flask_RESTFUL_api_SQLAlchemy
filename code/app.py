@@ -29,5 +29,4 @@ api.add_resource(UserRegister, '/register') # http://127.0.0.1:5000/register
 # only runs if this file is the entry point for the application. This 
 # does not run if this file is imported
 if __name__ == '__main__':
-    db.init_app(app)
     app.run(port=5000, debug=True)
