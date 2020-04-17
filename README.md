@@ -14,5 +14,4 @@ python app.py
 A simple REST API built using Flask, Flask RESTful, Flask JWT and Flask SQLAlchemy.
 
 ## Implementation
-
 This project is implement using Flask, and is aREST API for a store

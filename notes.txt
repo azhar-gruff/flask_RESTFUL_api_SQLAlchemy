@@ -1,1 +1,14 @@
 To make a folder a module in python 3, you must create a file within the folder named '__init__.py'
+For Heroku deployment, you need to add additional files to tell Heroku how to deploy your app
+    * runtime.txt -- use version of python used to create the application
+    * requirements.txt -- tells python what libraries are being use
+        --uwsgi: automation tool, do not install locally
+    * uwsgi.ini -- config for uwsgi process
+        --http-socket: heroku chooses a port at random. This tells uwsgi to use the port provided by
+            heroku
+        --master = true: initiates master process
+        --die-on-term = true: kills the app on termination
+        --module = app:app: tells uwsgi to look at the app.py module for a variable called 'app'
+        --memory-report = true: Generates a report on memory usage
+    * Procfile -- what dyno (server) you want to use in heroku. Script to run server and the file
+        that provides the server information. In this case, we are using uwsgi and uwsgi.ini
