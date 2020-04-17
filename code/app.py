@@ -6,7 +6,6 @@ from security import authenticate, identify
 from resources.user import UserRegister # refactored for modules
 from resources.item import Item, ItemList # refactored for modules
 from resources.store import Store, StoreList
-from db import db
 
 # ==== Server =====
 app = Flask(__name__)
