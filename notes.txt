@@ -12,3 +12,6 @@ For Heroku deployment, you need to add additional files to tell Heroku how to de
         --memory-report = true: Generates a report on memory usage
     * Procfile -- what dyno (server) you want to use in heroku. Script to run server and the file
         that provides the server information. In this case, we are using uwsgi and uwsgi.ini
+
+Checking Heroku logs
+    * With heroku CLI type 'heroku logs --app=app-name'
