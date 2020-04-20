@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
@@ -9,7 +11,7 @@ from resources.store import Store, StoreList
 
 # ==== Server =====
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' # can be any DB, not just sqlite
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db') # can be any DB, not just sqlite
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'thisisasecretkey' # NOTE change for production
 api = Api(app)
@@ -32,9 +34,4 @@ if __name__ == '__main__':
     from db import db
     db.init_app(app)
 
-    if app.config['DEBUG']:
-        @app.before_first_request
-        def create_Tables():
-            db.create_all()
-
-    app.run(port=5000)
+    app.run(port=5000, debug=True)
