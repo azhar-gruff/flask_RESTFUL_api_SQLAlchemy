@@ -14,6 +14,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'thisisasecretkey' # NOTE change for production
 api = Api(app)
 
+# ===== DB Creation =====
+@app.before_first_request # tells flask to run the following function first
+def create_tables():
+    db.create_all()
+
 # === Security ===
 jwt = JWT(app, authenticate, identify) # creates /auth endpoint
 
@@ -29,4 +34,12 @@ api.add_resource(UserRegister, '/register') # http://127.0.0.1:5000/register
 # only runs if this file is the entry point for the application. This 
 # does not run if this file is imported
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    from db import db
+    db.init_app(app)
+
+    if app.config['DEBUG']:
+        @app.before_first_request
+        def create_Tables():
+            db.create_all()
+
+    app.run(port=5000)
