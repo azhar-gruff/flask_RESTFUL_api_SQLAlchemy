@@ -3,6 +3,7 @@ For Heroku deployment, you need to add additional files to tell Heroku how to de
     * runtime.txt -- use version of python used to create the application
     * requirements.txt -- tells python what libraries are being use
         --uwsgi: automation tool, do not install locally
+        --psycopg2: A popular python library used to interact with postgres
     * uwsgi.ini -- config for uwsgi process
         --http-socket: heroku chooses a port at random. This tells uwsgi to use the port provided by
             heroku

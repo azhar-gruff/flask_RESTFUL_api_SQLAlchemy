@@ -11,7 +11,9 @@ from resources.store import Store, StoreList
 
 # ==== Server =====
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db') # can be any DB, not just sqlite
+# refactored to use environment variable, or sqlite if the environment
+# variable is not present
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'thisisasecretkey' # NOTE change for production
 api = Api(app)
